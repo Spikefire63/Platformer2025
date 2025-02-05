@@ -36,12 +36,12 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(movementVector.x));
         
         if(movementVector.x > 0 && body.velocity.x < maxSpeed)
-            //transform.Translate(Vector2.right * Speed * Time.deltaTime); //vector is (1,0) THIS IS WITHOUT PHYSICS
-            body.AddForce(Vector2.right * Speed);//THIS IS WITH PHYSICS
+            transform.Translate(Vector2.right * Speed * Time.deltaTime); //vector is (1,0) THIS IS WITHOUT PHYSICS
+            //body.AddForce(Vector2.right * Speed);//THIS IS WITH PHYSICS
 
         else if (movementVector.x < 0 && Mathf.Abs(body.velocity.x) < maxSpeed)
-            //transform.Translate(Vector2.left * Speed * Time.deltaTime); //vector (-1,0)
-            body.AddForce(Vector2.left * Speed);
+            transform.Translate(Vector2.left * Speed * Time.deltaTime); //vector (-1,0)
+            //body.AddForce(Vector2.left * Speed);
 
         if(movementVector.x < 0) //walking left
             sprite_r.flipX = true;
@@ -106,7 +106,10 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("boundary"))
+        {
+        GameManager.instance.DecreaseLives();
         SceneManager.LoadScene(0);
+        }
     }
 
 }
