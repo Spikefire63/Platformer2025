@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     public float JumpForce = 250;
     public float maxSpeed = 7f;
     public float gravityMultiplier = 3f;
-
+    public GameObject fire;
+    public Transform firePoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +82,12 @@ public class PlayerController : MonoBehaviour
             Jump = true;
         //transform.Translate(Vector2.up * Jump * Time.deltaTime);
         //Debug.Log("Jumping");
+    }
+
+    public void OnFire(InputValue movementValue)
+    {
+        animator.SetTrigger("IsShooting");
+        Instantiate(fire, firePoint.position, firePoint.rotation);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
