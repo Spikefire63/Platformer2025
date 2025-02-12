@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D body;
     private bool isGrounded = false;
     private bool Jump = false;
+    private float fireRate = 0.3f;
+    private float nextFire = 0f;
+    private bool facingRight = true;
     
 
     //publics
@@ -44,10 +47,18 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.left * Speed * Time.deltaTime); //vector (-1,0)
             //body.AddForce(Vector2.left * Speed);
 
-        if(movementVector.x < 0) //walking left
-            sprite_r.flipX = true;
-        else if (movementVector.x > 0) //walking right
-            sprite_r.flipX = false;
+        if(movementVector.x < 0 && facingRight) //walking left
+            {
+                //sprite_r.flipX = true;
+                Flip();
+                facingRight = false;
+            }
+        else if (movementVector.x > 0 && !facingRight) //walking right
+            {
+                //sprite_r.flipX = false;
+                Flip();
+                facingRight = true;
+            }
 
         if(Jump)
         {
@@ -86,8 +97,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue movementValue)
     {
-        animator.SetTrigger("IsShooting");
-        Instantiate(fire, firePoint.position, firePoint.rotation);
+        if(Time.time >= nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            animator.SetTrigger("IsShooting");
+            Instantiate(fire, firePoint.position, facingRight ? firePoint.rotation : Quaternion.Euler(0, 180, 0));
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -117,6 +132,22 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.DecreaseLives();
         SceneManager.LoadScene(0);
         }
+    }
+
+    public Vector2 GetDirection()
+    {
+        //retrun facingRight
+        if(facingRight)
+            return Vector2.right;
+        else
+            return Vector2.left;
+    }
+
+    void Flip()
+    {
+        Vector3 theScale = transform.localScale;
+        theScale.x = theScale.x * -1; //invert the value
+        transform.localScale = theScale;
     }
 
 }
