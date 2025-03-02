@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FireController : MonoBehaviour
@@ -15,7 +13,7 @@ public class FireController : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         //rb.AddForce(Vector2.right * force);
         rb.velocity = force * direction;
-        Invoke("Die", 4f); //wait 4 seconds bedore destroying the bullet
+        Invoke("Die", 1.5f); //wait 4 seconds bedore destroying the bullet
     }
 
     // Update is called once per frame

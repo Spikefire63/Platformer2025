@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -25,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public float gravityMultiplier = 3f;
     public GameObject fire;
     public Transform firePoint;
+    public float fadeDuration = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -129,8 +129,13 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("boundary"))
         {
-        GameManager.instance.DecreaseLives();
-        SceneManager.LoadScene(0);
+            GameManager.instance.DecreaseLives();
+            SceneManager.LoadScene(0);
+        }
+        else if (collision.gameObject.CompareTag("Next Level"))
+        {
+            // Trigger the fade and scene load from the GameManager
+            GameManager.instance.StartFadeAndLoad(1);
         }
     }
 

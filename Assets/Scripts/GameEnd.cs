@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,6 +55,9 @@ public class GameEnding : MonoBehaviour
             block.color = new Color(0, 0, 0, ft); // Set alpha gradually
             yield return new WaitForSeconds(0.1f); // Wait for the next frame
         }
+
+        block.color = new Color(0, 0, 0, 1f);
+
     }
 
 }

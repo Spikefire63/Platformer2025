@@ -8,6 +8,7 @@ TagManager:
   - boundary
   - Fire
   - Enemy
+  - Next Level
   layers:
   - Default
   - TransparentFX
