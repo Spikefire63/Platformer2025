@@ -22,42 +22,40 @@ public class GameEnding : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-
-        // Debug: Check if the trigger is detected and the player entered
-        Debug.Log("Trigger entered by: " + other.gameObject.name);
-
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player triggered the end zone!");
+            Debug.Log("player triggered zone");
             
-            // Optionally hide the lives UI when the game ends
+            //hide the lives at the end of the game
             if (lives != null)
                 lives.SetActive(false);
 
-            // Show the Game Over image and text
+            // show the game over text
             image.SetActive(true);
             text.SetActive(true);
 
+            //calling the ending coroutine
             StartCoroutine(Fade());
-
-            // Quit the application
-            Application.Quit();
         }
     }
 
+    //creating the ending coroutine
     IEnumerator Fade()
     {
         Image block = image.GetComponent<Image>();
 
-        // Fade the image from fully transparent to opaque over a duration
-        for (float ft = 0f; ft <= 1f; ft += 0.1f) // Fade in
+        //fade to black
+        for (float ft = 0f; ft <= 1f; ft += 0.1f)
         {
-            block.color = new Color(0, 0, 0, ft); // Set alpha gradually
-            yield return new WaitForSeconds(0.1f); // Wait for the next frame
+            block.color = new Color(0, 0, 0, ft);
+            yield return new WaitForSeconds(0.1f);
         }
-
+        //make sure screen is completely black by the end of the fade
         block.color = new Color(0, 0, 0, 1f);
 
+        yield return new WaitForSeconds(2f);
+
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 
 }

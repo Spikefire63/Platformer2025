@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -112,6 +113,12 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             Debug.Log("Touching Ground");
         }
+        //adds a collision with the enemys so that now enemys decrease lives and reset the current level
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            GameManager.instance.DecreaseLives();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     IEnumerator LerpJump()
@@ -129,13 +136,14 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("boundary"))
         {
+            //when falling off of the level, instead of completely restarting the sceneManager loads the current scene the player was on.
             GameManager.instance.DecreaseLives();
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else if (collision.gameObject.CompareTag("Next Level"))
         {
-            // Trigger the fade and scene load from the GameManager
-            GameManager.instance.StartFadeAndLoad(1);
+            //load the second scene
+            SceneManager.LoadScene(1);
         }
     }
 
